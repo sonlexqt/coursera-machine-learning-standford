@@ -67,8 +67,8 @@ y_matrix = eye_matrix(y,:);
 a1 = [ones(m, 1) X];
 z2 = a1 * Theta1';
 a2 = sigmoid(z2);  % a2 size: 5000x25
-a2 = [ones(m, 1) a2]; % a2 size: 5000x26
-z3 = a2 * Theta2';
+a2_extra = [ones(m, 1) a2]; % a2_extra size: 5000x26
+z3 = a2_extra * Theta2';
 a3 = sigmoid(z3);   % a3 size: 5000x10
 
 cost = - y_matrix .* log(a3) - (1 - y_matrix) .* (log(1 - a3));
@@ -88,16 +88,6 @@ delta2 = (delta3 * Theta2_no_bias) .* sigmoidGradient(z2);
 
 Delta1 = delta2' * a1;
 Delta2 = delta3' * a2;
-Theta1_grad = Delta1 / m;
-Theta2_grad = Delta2 / m;
-
-regularize_term1 = (Theta1) * (lambda / m);
-regularize_term2 = (Theta2) * (lambda / m);
-regularize_term1(:, 1) = 0;
-regularize_term2(:, 1) = 0;
-
-Theta1_grad = Theta1_grad + regularize_term1;
-Theta2_grad = Theta2_grad + regularize_term2;
 
 % =========================================================================
 
